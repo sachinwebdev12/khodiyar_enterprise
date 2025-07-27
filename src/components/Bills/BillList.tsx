@@ -199,13 +199,7 @@ const BillList: React.FC<BillListProps> = ({ onEditBill }) => {
                         <CreditCard size={14} />
                         <span className="hidden sm:inline">Pay</span>
                       </button>
-                      <button
-                        className="bg-purple-100 text-purple-700 px-2 py-1 rounded text-xs hover:bg-purple-200 transition-colors flex items-center justify-center space-x-1"
-                        title="Download"
-                      >
-                        <Download size={14} />
-                        <span className="hidden sm:inline">PDF</span>
-                      </button>
+                     
                       <button
                         onClick={() => handleDeleteBill(bill)}
                         className="bg-red-100 text-red-700 px-2 py-1 rounded text-xs hover:bg-red-200 transition-colors flex items-center justify-center space-x-1"
