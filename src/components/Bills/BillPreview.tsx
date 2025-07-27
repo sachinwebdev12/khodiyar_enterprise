@@ -1,8 +1,7 @@
 import React, { useRef } from 'react';
-import React, { useRef } from 'react';
-import { Download, Printer, X } from 'lucide-react';
+import { Download, FileImage, Printer, X } from 'lucide-react';
 import { Bill, CompanySettings } from '../../types';
-import { downloadBillAsPDF } from '../../utils/pdf';
+import { downloadBillPDF, generateBillImage } from '../../utils/pdf';
 
 interface BillPreviewProps {
   bill: Bill;
@@ -14,51 +13,57 @@ const BillPreview: React.FC<BillPreviewProps> = ({ bill, settings, onClose }) =>
   const billRef = useRef<HTMLDivElement>(null);
 
   const handleDownloadPDF = async () => {
+    await downloadBillPDF(bill, settings);
+  };
+
+  const handleDownloadImage = async () => {
     if (billRef.current) {
-      await downloadBillAsPDF(billRef.current, bill.billNo);
+      await generateBillImage(billRef.current);
     }
   };
 
   const handlePrint = () => {
-    if (billRef.current) {
-      const printContent = billRef.current.innerHTML;
-      const printWindow = window.open('', '_blank');
-      if (printWindow) {
-        printWindow.document.write(`
-          <html>
-            <head>
-              <title>Bill ${bill.billNo}</title>
-              <style>
-                body { margin: 0; padding: 20px; font-family: Arial, sans-serif; }
-                .bill-container { max-width: 800px; margin: 0 auto; }
-                table { width: 100%; border-collapse: collapse; }
-                th, td { border: 1px solid #dc3545; padding: 8px; text-align: left; font-size: 12px; }
-                .header { background-color: #dc3545; color: white; text-align: center; padding: 20px; }
-                .company-name { font-size: 24px; font-weight: bold; margin-bottom: 5px; }
-                .company-subtitle { font-size: 12px; }
-                .company-details { text-align: center; padding: 10px; font-size: 10px; }
-                .bill-info { display: flex; justify-content: space-between; padding: 10px; }
-                .footer { display: flex; justify-content: space-between; padding: 20px; font-size: 10px; }
-                .total { text-align: right; font-weight: bold; font-size: 14px; padding: 10px; }
-                @media print {
-                  body { margin: 0; }
-                  .no-print { display: none; }
-                }
-              </style>
-            </head>
-            <body>
-              ${printContent}
-            </body>
-          </html>
-        `);
-        printWindow.document.close();
-        printWindow.focus();
-        setTimeout(() => {
-          printWindow.print();
-          printWindow.close();
-        }, 250);
-      }
-    }
+    const printContent = billRef.current;
+    if (!printContent) return;
+
+    const printWindow = window.open('', '_blank');
+    if (!printWindow) return;
+
+    printWindow.document.write(`
+      <html>
+        <head>
+          <title>Bill ${bill.billNo}</title>
+          <style>
+            body { margin: 0; padding: 20px; font-family: Arial, sans-serif; }
+            .bill-container { max-width: 800px; margin: 0 auto; }
+            table { width: 100%; border-collapse: collapse; }
+            th, td { border: 1px solid #dc3545; padding: 8px; text-align: left; font-size: 12px; }
+            .header { background-color: #dc3545; color: white; text-align: center; padding: 20px; }
+            .company-name { font-size: 24px; font-weight: bold; margin-bottom: 5px; }
+            .company-subtitle { font-size: 12px; }
+            .company-details { text-align: center; padding: 10px; font-size: 10px; }
+            .bill-info { display: flex; justify-content: space-between; padding: 10px; }
+            .footer { display: flex; justify-content: space-between; padding: 20px; font-size: 10px; }
+            .total { text-align: right; font-weight: bold; font-size: 14px; padding: 10px; }
+            @media print {
+              body { margin: 0; }
+              .no-print { display: none; }
+            }
+          </style>
+        </head>
+        <body>
+          ${printContent.innerHTML}
+        </body>
+      </html>
+    `);
+    
+    printWindow.document.close();
+    printWindow.focus();
+    
+    setTimeout(() => {
+      printWindow.print();
+      printWindow.close();
+    }, 250);
   };
 
   return (
@@ -74,6 +79,13 @@ const BillPreview: React.FC<BillPreviewProps> = ({ bill, settings, onClose }) =>
             >
               <Download size={16} />
               <span>PDF</span>
+            </button>
+            <button
+              onClick={handleDownloadImage}
+              className="bg-green-600 text-white px-3 py-2 rounded-lg hover:bg-green-700 transition-colors flex items-center space-x-2"
+            >
+              <FileImage size={16} />
+              <span>Image</span>
             </button>
             <button
               onClick={handlePrint}

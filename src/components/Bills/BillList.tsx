@@ -7,7 +7,6 @@ import BillForm from './BillForm';
 import PaymentForm from '../Clients/PaymentForm';
 import { processPayment } from '../../utils/payments';
 import { Bill } from '../../types';
-import { downloadBillPDF } from '../../utils/pdf';
 
 interface BillListProps {
   onEditBill?: (bill: Bill) => void;
@@ -26,10 +25,6 @@ const BillList: React.FC<BillListProps> = ({ onEditBill }) => {
     bill.billNo.toLowerCase().includes(searchTerm.toLowerCase()) ||
     bill.clientName.toLowerCase().includes(searchTerm.toLowerCase())
   );
-
-  const handleDownloadPDF = async (bill: Bill) => {
-    await downloadBillPDF(bill, settings);
-  };
 
   const handleAddPayment = (amount: number, date: string, description: string) => {
     if (selectedBill) {
@@ -205,7 +200,6 @@ const BillList: React.FC<BillListProps> = ({ onEditBill }) => {
                         <span className="hidden sm:inline">Pay</span>
                       </button>
                       <button
-                        onClick={() => handleDownloadPDF(bill)}
                         className="bg-purple-100 text-purple-700 px-2 py-1 rounded text-xs hover:bg-purple-200 transition-colors flex items-center justify-center space-x-1"
                         title="Download"
                       >

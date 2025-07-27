@@ -186,27 +186,16 @@ export const downloadBillPDF = async (bill: Bill, settings: CompanySettings) => 
   doc.save(`Bill_${bill.billNo}.pdf`);
 };
 
-export const downloadBillAsPDF = async (billElement: HTMLElement, billNo: string) => {
-  const { jsPDF } = await import('jspdf');
+export const generateBillImage = async (billElement: HTMLElement) => {
   const html2canvas = (await import('html2canvas')).default;
-
   const canvas = await html2canvas(billElement, {
     scale: 2,
     useCORS: true,
-    allowTaint: true,
-    logging: true,
-    width: billElement.scrollWidth,
-    height: billElement.scrollHeight,
-    windowWidth: billElement.scrollWidth,
-    windowHeight: billElement.scrollHeight,
+    allowTaint: true
   });
-
-  const imgData = canvas.toDataURL('image/png');
-  const pdf = new jsPDF('p', 'mm', 'a4');
-  const pdfWidth = pdf.internal.pageSize.getWidth();
-  const pdfHeight = (canvas.height * pdfWidth) / canvas.width;
-
-  pdf.addImage(imgData, 'PNG', 0, 0, pdfWidth, pdfHeight);
-  pdf.save(`Bill_${billNo}.pdf`);
+  
+  const link = document.createElement('a');
+  link.download = `bill_${Date.now()}.png`;
+  link.href = canvas.toDataURL();
+  link.click();
 };
-
