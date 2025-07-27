@@ -78,7 +78,7 @@ const BillPreview: React.FC<BillPreviewProps> = ({ bill, settings, onClose }) =>
               className="bg-green-600 text-white px-3 py-2 rounded-lg hover:bg-green-700 transition-colors flex items-center space-x-2"
             >
               <FileImage size={16} />
-              <span>Image</span>
+              <span>Download Bill</span>
             </button>
             <button
               onClick={onClose}
