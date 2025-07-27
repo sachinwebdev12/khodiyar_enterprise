@@ -74,25 +74,11 @@ const BillPreview: React.FC<BillPreviewProps> = ({ bill, settings, onClose }) =>
           <h2 className="text-xl font-semibold">Bill Preview - {bill.billNo}</h2>
           <div className="flex items-center space-x-2">
             <button
-              onClick={handleDownloadPDF}
-              className="bg-red-600 text-white px-3 py-2 rounded-lg hover:bg-red-700 transition-colors flex items-center space-x-2"
-            >
-              <Download size={16} />
-              <span>PDF</span>
-            </button>
-            <button
               onClick={handleDownloadImage}
               className="bg-green-600 text-white px-3 py-2 rounded-lg hover:bg-green-700 transition-colors flex items-center space-x-2"
             >
               <FileImage size={16} />
               <span>Image</span>
-            </button>
-            <button
-              onClick={handlePrint}
-              className="bg-blue-600 text-white px-3 py-2 rounded-lg hover:bg-blue-700 transition-colors flex items-center space-x-2"
-            >
-              <Printer size={16} />
-              <span>Print</span>
             </button>
             <button
               onClick={onClose}
