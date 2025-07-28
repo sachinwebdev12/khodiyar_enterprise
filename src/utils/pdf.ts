@@ -17,20 +17,17 @@ export const generateBillPDF = async (bill: Bill, settings: CompanySettings) => 
   doc.rect(10, 10, pageWidth - 20, pageHeight - 20);
 
   // Header section with company name
-  doc.setFillColor(...redColor);
-  doc.rect(10, 10, pageWidth - 20, 35);
-  
-  doc.setTextColor(255, 255, 255); // White text
-  doc.setFontSize(24);
+  // Company name in red
+  doc.setTextColor(...redColor);
+  doc.setFontSize(20);
   doc.setFont(undefined, 'bold');
-  doc.text('KHODIYAR ENTERPRISE', pageWidth / 2, 25, { align: 'center' });
+  doc.text('KHODIYAR ENTERPRISE', pageWidth / 2, 30, { align: 'center' });
   
+  // Reset to black for other text
+  doc.setTextColor(0, 0, 0);
   doc.setFontSize(10);
   doc.setFont(undefined, 'normal');
-  doc.text('TRANSPORT CONTRACTOR AND COMMISSION AGENT', pageWidth / 2, 35, { align: 'center' });
-
-  // Reset text color to black
-  doc.setTextColor(0, 0, 0);
+  doc.text('TRANSPORT CONTRACTOR AND COMMISSION AGENT', pageWidth / 2, 40, { align: 'center' });
   
   // Company details section
   doc.setFontSize(9);
@@ -38,7 +35,7 @@ export const generateBillPDF = async (bill: Bill, settings: CompanySettings) => 
     `Mobile: ${settings.phone}, ${settings.phone2}` : 
     `Mobile: ${settings.phone}`;
   
-  doc.text(settings.address, pageWidth / 2, 52, { align: 'center' });
+  doc.text(settings.address, pageWidth / 2, 50, { align: 'center' });
   doc.text(phoneText, pageWidth / 2, 59, { align: 'center' });
   doc.text(`PAN No: ${settings.panNo}`, pageWidth / 2, 66, { align: 'center' });
 
@@ -52,16 +49,19 @@ export const generateBillPDF = async (bill: Bill, settings: CompanySettings) => 
   doc.text(`Bill No: ${bill.billNo}`, 15, 85);
   doc.text(`Date: ${new Date(bill.date).toLocaleDateString()}`, pageWidth - 70, 85);
 
-  // Client details
-  doc.text('M/s:', 15, 100);
+  // Client details - M/s and Address labels
+  doc.setFont(undefined, 'bold');
+  doc.text('M/s:', pageWidth - 70, 100);
   doc.setFont(undefined, 'normal');
-  doc.text(bill.clientName, 35, 100);
+  doc.text(bill.clientName, pageWidth - 50, 100);
   
-  // Split address into multiple lines if too long
-  const addressLines = doc.splitTextToSize(bill.clientAddress, pageWidth - 30);
-  let yPos = 107;
+  doc.setFont(undefined, 'bold');
+  doc.text('Address:', pageWidth - 70, 110);
+  doc.setFont(undefined, 'normal');
+  const addressLines = doc.splitTextToSize(bill.clientAddress, 60);
+  let yPos = 110;
   addressLines.forEach((line: string) => {
-    doc.text(line, 15, yPos);
+    doc.text(line, pageWidth - 50, yPos);
     yPos += 7;
   });
 

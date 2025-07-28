@@ -1,6 +1,7 @@
 import React from 'react';
 import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
 import { useAuth } from './hooks/useAuth';
+import { useSupabaseData } from './hooks/useSupabaseData';
 import Login from './components/Auth/Login';
 import Layout from './components/Layout/Layout';
 import Dashboard from './components/Dashboard/Dashboard';
@@ -8,35 +9,28 @@ import ClientList from './components/Clients/ClientList';
 import BillList from './components/Bills/BillList';
 import BillForm from './components/Bills/BillForm';
 import Settings from './components/Settings/Settings';
-import { useData } from './hooks/useData';
-import { storage } from './utils/storage';
 import { Bill, Client } from './types';
 import { useNavigate } from 'react-router-dom';
 
 const NewBillPage: React.FC = () => {
-  const { clients, refreshData } = useData();
+  const { clients, addBill, addClient, getNextBillNumber, refreshData } = useSupabaseData();
   const navigate = useNavigate();
 
-  const handleCreateBill = (billData: any, newClient?: any) => {
+  const handleCreateBill = async (billData: any, newClient?: any) => {
     // If new client was created, add it first
+    let clientId = billData.clientId;
     if (newClient) {
-      const client: Client = {
-        ...newClient,
-        id: billData.clientId,
-        createdAt: new Date().toISOString(),
-        totalBills: 0,
-        totalAmount: 0,
-        paidAmount: 0,
-        pendingAmount: 0
-      };
-      storage.addClient(client);
+      await addClient(newClient);
+      // Get the newly created client ID
+      clientId = `client_${Date.now()}`;
     }
 
-    const billNo = storage.incrementBillCounter().toString();
+    const billNo = await getNextBillNumber();
     
     const newBill: Bill = {
       id: `bill_${Date.now()}`,
       billNo,
+      clientId,
       ...billData,
       paidAmount: 0,
       pendingAmount: billData.totalActual,
@@ -44,20 +38,7 @@ const NewBillPage: React.FC = () => {
       createdAt: new Date().toISOString()
     };
 
-    storage.addBill(newBill);
-
-    // Update client totals
-    const client = newClient ? 
-      storage.getClients().find(c => c.id === billData.clientId) :
-      clients.find(c => c.id === billData.clientId);
-      
-    if (client) {
-      storage.updateClient(client.id, {
-        totalBills: client.totalBills + 1,
-        totalAmount: client.totalAmount + billData.totalActual,
-        pendingAmount: client.pendingAmount + billData.totalActual
-      });
-    }
+    await addBill(newBill);
 
     refreshData();
     navigate('/bills');

@@ -90,13 +90,17 @@ const BillPreview: React.FC<BillPreviewProps> = ({ bill, settings, onClose }) =>
         </div>
 
         {/* Bill Content */}
-        <div ref={billRef} className="p-8 bg-white">
-          <div className="max-w-4xl mx-auto border-2 border-red-600">
+        <div ref={billRef} className="p-8 bg-white" style={{ fontFamily: 'Arial, sans-serif' }}>
+          <div className="max-w-4xl mx-auto" style={{ border: '2px solid #dc3545' }}>
             {/* Header */}
-            <div className="text-center border-b-2 border-red-600 p-4">
-              <h1 className="text-3xl font-bold text-red-600 mb-2">KHODIYAR ENTERPRISE</h1>
-              <p className="text-sm">TRANSPORT CONTRACTOR AND COMMISSION AGENT</p>
-              <div className="text-xs mt-2 space-y-1">
+            <div className="text-center p-6" style={{ borderBottom: '2px solid #dc3545' }}>
+              <h1 className="text-4xl font-bold mb-2" style={{ color: '#dc3545', fontFamily: 'Arial, sans-serif' }}>
+                KHODIYAR ENTERPRISE
+              </h1>
+              <p className="text-base font-medium mb-3" style={{ color: '#000' }}>
+                TRANSPORT CONTRACTOR AND COMMISSION AGENT
+              </p>
+              <div className="text-sm space-y-1" style={{ color: '#000' }}>
                 <p>{settings.address}</p>
                 <p>Mobile: {settings.phone}{settings.phone2 ? `, ${settings.phone2}` : ''}</p>
                 <p>PAN No: {settings.panNo}</p>
@@ -104,15 +108,22 @@ const BillPreview: React.FC<BillPreviewProps> = ({ bill, settings, onClose }) =>
             </div>
 
             {/* Bill Info */}
-            <div className="flex justify-between p-4 border-b border-red-600">
+            <div className="flex justify-between p-4" style={{ borderBottom: '1px solid #dc3545' }}>
               <div>
-                <p><strong>Bill No:</strong> {bill.billNo}</p>
-                <p><strong>Date:</strong> {new Date(bill.date).toLocaleDateString()}</p>
+                <p className="mb-2" style={{ fontSize: '14px', color: '#000' }}>
+                  <strong>Bill No:</strong> {bill.billNo}
+                </p>
+                <p style={{ fontSize: '14px', color: '#000' }}>
+                  <strong>Date:</strong> {new Date(bill.date).toLocaleDateString()}
+                </p>
               </div>
               <div className="text-right">
-                <p><strong>M/s:</strong></p>
-                <p>{bill.clientName}</p>
-                <p className="text-sm">{bill.clientAddress}</p>
+                <p className="mb-2" style={{ fontSize: '14px', color: '#000' }}>
+                  <strong>M/s:</strong> {bill.clientName}
+                </p>
+                <p style={{ fontSize: '12px', color: '#000', maxWidth: '200px' }}>
+                  <strong>Address:</strong> {bill.clientAddress}
+                </p>
               </div>
             </div>
 
@@ -120,12 +131,12 @@ const BillPreview: React.FC<BillPreviewProps> = ({ bill, settings, onClose }) =>
             <div className="overflow-x-auto">
               <table className="w-full border-collapse">
                 <thead>
-                  <tr className="border-b border-red-600">
-                    <th className="border-r border-red-600 p-2 text-left text-xs">Date</th>
-                    <th className="border-r border-red-600 p-2 text-left text-xs">Vehicle No</th>
-                    <th className="border-r border-red-600 p-2 text-left text-xs">LR No</th>
-                    <th className="border-r border-red-600 p-2 text-left text-xs">Particulars</th>
-                    <th className="border-r border-red-600 p-2 text-left text-xs">Qty</th>
+                  <tr style={{ borderBottom: '1px solid #dc3545' }}>
+                    <th className="p-3 text-left text-sm font-medium" style={{ borderRight: '1px solid #dc3545', color: '#000' }}>Date</th>
+                    <th className="p-3 text-left text-sm font-medium" style={{ borderRight: '1px solid #dc3545', color: '#000' }}>Vehicle No</th>
+                    <th className="p-3 text-left text-sm font-medium" style={{ borderRight: '1px solid #dc3545', color: '#000' }}>LR No</th>
+                    <th className="p-3 text-left text-sm font-medium" style={{ borderRight: '1px solid #dc3545', color: '#000' }}>Particulars</th>
+                    <th className="p-3 text-left text-sm font-medium" style={{ borderRight: '1px solid #dc3545', color: '#000' }}>Qty</th>
                     <th className="border-r border-red-600 p-2 text-left text-xs">Rate</th>
                     <th className="border-r border-red-600 p-2 text-left text-xs">Amount</th>
                     <th className="border-r border-red-600 p-2 text-left text-xs">Advance</th>
@@ -135,24 +146,24 @@ const BillPreview: React.FC<BillPreviewProps> = ({ bill, settings, onClose }) =>
                 <tbody>
                   {bill.items.map((item, index) => (
                     <tr key={index} className="border-b border-red-600">
-                      <td className="border-r border-red-600 p-2 text-xs">{new Date(item.date).toLocaleDateString()}</td>
-                      <td className="border-r border-red-600 p-2 text-xs">{item.vehicleNo}</td>
-                      <td className="border-r border-red-600 p-2 text-xs">{item.lrNo}</td>
-                      <td className="border-r border-red-600 p-2 text-xs">{item.particulars}</td>
-                      <td className="border-r border-red-600 p-2 text-xs text-center">{item.qty}</td>
-                      <td className="border-r border-red-600 p-2 text-xs text-right">{item.rate}</td>
-                      <td className="border-r border-red-600 p-2 text-xs text-right">{item.amount}</td>
+                      <td className="p-3 text-sm" style={{ borderRight: '1px solid #dc3545', borderBottom: '1px solid #dc3545', color: '#000' }}>
+                        {new Date(item.date).toLocaleDateString()}
+                      </td>
+                      <td className="p-3 text-sm" style={{ borderRight: '1px solid #dc3545', borderBottom: '1px solid #dc3545', color: '#000' }}>
+                        {item.vehicleNo}
+                      </td>
+                      <td className="p-3 text-sm" style={{ borderRight: '1px solid #dc3545', borderBottom: '1px solid #dc3545', color: '#000' }}>
                       <td className="border-r border-red-600 p-2 text-xs text-right">{item.advance}</td>
                       <td className="p-2 text-xs text-right font-medium">{item.actual}</td>
                     </tr>
                   ))}
                   {/* Empty rows for formatting */}
                   {Array.from({ length: Math.max(0, 5 - bill.items.length) }).map((_, index) => (
-                    <tr key={`empty-${index}`} className="border-b border-red-600">
-                      <td className="border-r border-red-600 p-2 text-xs">&nbsp;</td>
-                      <td className="border-r border-red-600 p-2 text-xs">&nbsp;</td>
-                      <td className="border-r border-red-600 p-2 text-xs">&nbsp;</td>
-                      <td className="border-r border-red-600 p-2 text-xs">&nbsp;</td>
+                    <tr key={`empty-${index}`} style={{ borderBottom: '1px solid #dc3545' }}>
+                      <td className="p-3" style={{ borderRight: '1px solid #dc3545' }}>&nbsp;</td>
+                      <td className="p-3" style={{ borderRight: '1px solid #dc3545' }}>&nbsp;</td>
+                      <td className="p-3" style={{ borderRight: '1px solid #dc3545' }}>&nbsp;</td>
+                      <td className="p-3" style={{ borderRight: '1px solid #dc3545' }}>&nbsp;</td>
                       <td className="border-r border-red-600 p-2 text-xs">&nbsp;</td>
                       <td className="border-r border-red-600 p-2 text-xs">&nbsp;</td>
                       <td className="border-r border-red-600 p-2 text-xs">&nbsp;</td>
@@ -165,9 +176,11 @@ const BillPreview: React.FC<BillPreviewProps> = ({ bill, settings, onClose }) =>
             </div>
 
             {/* Totals */}
-            <div className="border-b border-red-600 p-4">
+            <div className="p-4" style={{ borderBottom: '1px solid #dc3545' }}>
               <div className="flex justify-end">
-                <div className="text-right">
+                <div className="text-right" style={{ 
+                  fontSize: '18px', fontWeight: 'bold', color: '#000' 
+                }}>
                   <p className="text-lg font-bold">Total: ₹{bill.totalActual}</p>
                 </div>
               </div>
@@ -175,16 +188,18 @@ const BillPreview: React.FC<BillPreviewProps> = ({ bill, settings, onClose }) =>
 
             {/* Footer */}
             <div className="flex justify-between p-4">
-              <div className="text-xs">
+              <div style={{ fontSize: '12px', color: '#000' }}>
                 <p><strong>Bank Details:</strong></p>
                 <p>Bank: {settings.bankName}</p>
                 <p>A/c No: {settings.accountNo}</p>
                 <p>IFSC: {settings.ifscCode}</p>
                 <p>Branch: {settings.bankBranch}</p>
               </div>
-              <div className="text-right text-xs">
+              <div className="text-right" style={{ fontSize: '12px', color: '#000' }}>
                 <p>For {settings.name}</p>
-                <div className="h-12"></div>
+                <div style={{ height: '40px', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                  {/* Signature space */}
+                </div>
                 <p>{settings.proprietor}</p>
                 <p>Proprietor</p>
               </div>
