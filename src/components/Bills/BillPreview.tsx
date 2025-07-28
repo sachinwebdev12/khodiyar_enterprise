@@ -153,6 +153,16 @@ const BillPreview: React.FC<BillPreviewProps> = ({ bill, settings, onClose }) =>
                         {item.vehicleNo}
                       </td>
                       <td className="p-3 text-sm" style={{ borderRight: '1px solid #dc3545', borderBottom: '1px solid #dc3545', color: '#000' }}>
+                        {item.lrNo}
+                      </td>
+                      <td className="p-3 text-sm" style={{ borderRight: '1px solid #dc3545', borderBottom: '1px solid #dc3545', color: '#000' }}>
+                        {item.particulars}
+                      </td>
+                      <td className="p-3 text-sm" style={{ borderRight: '1px solid #dc3545', borderBottom: '1px solid #dc3545', color: '#000' }}>
+                        {item.qty}
+                      </td>
+                      <td className="border-r border-red-600 p-2 text-xs text-right">{item.rate}</td>
+                      <td className="border-r border-red-600 p-2 text-xs text-right">{item.amount}</td>
                       <td className="border-r border-red-600 p-2 text-xs text-right">{item.advance}</td>
                       <td className="p-2 text-xs text-right font-medium">{item.actual}</td>
                     </tr>
@@ -164,7 +174,7 @@ const BillPreview: React.FC<BillPreviewProps> = ({ bill, settings, onClose }) =>
                       <td className="p-3" style={{ borderRight: '1px solid #dc3545' }}>&nbsp;</td>
                       <td className="p-3" style={{ borderRight: '1px solid #dc3545' }}>&nbsp;</td>
                       <td className="p-3" style={{ borderRight: '1px solid #dc3545' }}>&nbsp;</td>
-                      <td className="border-r border-red-600 p-2 text-xs">&nbsp;</td>
+                      <td className="p-3" style={{ borderRight: '1px solid #dc3545' }}>&nbsp;</td>
                       <td className="border-r border-red-600 p-2 text-xs">&nbsp;</td>
                       <td className="border-r border-red-600 p-2 text-xs">&nbsp;</td>
                       <td className="border-r border-red-600 p-2 text-xs">&nbsp;</td>
