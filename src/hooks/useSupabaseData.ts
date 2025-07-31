@@ -44,7 +44,7 @@ export const useSupabaseData = () => {
         .from('company_settings')
         .select('*')
         .limit(1)
-        .single();
+        .maybeSingle();
 
       if (settingsError && settingsError.code !== 'PGRST116') {
         throw settingsError;
